@@ -12,7 +12,7 @@ import Register from './components/Register/Register';
 
 const app = new Clarifai.App({
   // add your own
-  apiKey: ''
+  apiKey: 'ad4917ee89a9492585dcb577ae012cf4'
  });
 
 const particlesOptions = {
@@ -35,7 +35,14 @@ class App extends Component{
            imageUrl:'',
            box:{},
            route:'signin',
-           isSignedIn:false
+           isSignedIn:false,
+           user:{
+             email:'',
+             name:'',
+             entries: 0,
+             id: '0',
+             joined:''
+           }
         };
       }
 
@@ -43,7 +50,17 @@ class App extends Component{
          this.setState({box:box});
       }
 
-      calculateFaceLocation=(data)=>{
+      loadUser = (user) => {
+          this.setState({user :{
+            email: user.email,
+            name: user.name,
+            entries: user.entries,
+            id: user.id,
+            joined: user.joined
+          }})
+      } ;
+
+      calculateFaceLocation = (data) => {
         const face=data.outputs[0].data.regions[0].region_info.bounding_box;
         const image=document.getElementById('inputimage');
         const width=Number(image.width);
@@ -93,13 +110,13 @@ class App extends Component{
                this.state.route === "home" ?
                <div>
                <Logo />
-               <Rank />
+               <Rank name={this.state.user.name} entries={this.state.user.entries} />
                <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
                <FaceRecognition imageUrl={this.state.imageUrl} box={this.state.box} />
               </div>
                : ( this.state.route === "signin" ?
                   <Signin onRouteChange = {this.onRouteChange} /> :
-                  <Register onRouteChange = {this.onRouteChange} />
+                  <Register onRouteChange = {this.onRouteChange} loadUser = {this.loadUser} />
                )
              }
         </div>
