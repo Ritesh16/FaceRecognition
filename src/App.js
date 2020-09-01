@@ -12,7 +12,7 @@ import Register from './components/Register/Register';
 
 const app = new Clarifai.App({
   // add your own
-  apiKey: ''
+  apiKey: 'ad4917ee89a9492585dcb577ae012cf4'
  });
 
 const particlesOptions = {
@@ -27,25 +27,25 @@ const particlesOptions = {
   }
 }
 
+const initialState={
+    input:'',
+    imageUrl:'',
+    box:{},
+    oute:'signin',
+    isSignedIn:false,
+    user:{
+       email:'',
+       name:'',
+       entries: 0,
+       id: '0',
+       joined:''
+      }
+    };
 class App extends Component{
       constructor(){
         super();
-        this.state={
-           input:'',
-           imageUrl:'',
-           box:{},
-           route:'signin',
-           isSignedIn:false,
-           user:{
-             email:'',
-             name:'',
-             entries: 0,
-             id: '0',
-             joined:''
-           }
-        };
+        this.state= initialState;
       }
-
       displayFaceBox(box){
          this.setState({box:box});
       }
@@ -76,7 +76,7 @@ class App extends Component{
 
       onRouteChange = (route) => { 
         if(route==='signin'){
-          this.setState({isSignedIn:false});
+          this.setState(initialState);
         }
         else if(route==='home'){
           this.setState({isSignedIn:true});
